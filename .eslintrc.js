@@ -25,6 +25,7 @@ module.exports = {
         "prefer-const": "warn",
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
+        "no-unused-vars": "off",
         "prettier/prettier": ["warn", { endOfLine: "auto" }]
     }
 };

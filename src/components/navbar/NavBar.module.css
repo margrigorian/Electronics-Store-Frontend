@@ -25,15 +25,28 @@
     height: 25px;
     background-color: black;
     border-radius: 30%;
-    /* background-image: url('../../pictures/logo-2.jpg'); */
-    /* background-size: cover; */
     padding-top: 1px;
     color: white;
     text-align: center;
 }
 .category{
     padding: 10px 0;
+    letter-spacing: 1px;
     cursor: pointer;
+}
+.category:hover{
+    color:rgb(6, 130, 171)
+}
+.infoChapter{
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+.infoChapter:hover{
+    color:rgb(6, 130, 171)
+}
+.loginIcon{
+    display: flex;
+    align-items: center;
 }
 .cursor{
     cursor: pointer;

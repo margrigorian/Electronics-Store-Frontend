@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./NavBar.module.css";
+import { NavLink } from "react-router-dom";
 import { useStateManagment } from "../../store/store";
 import NavBarDrawer from "../navbar_drawer/NavBarDrawer";
 import * as Icon from "react-bootstrap-icons";
@@ -47,11 +48,13 @@ export default function NavBar() {
                     </div>
                 </div>
                 <div className={style.navbarList}>
-                    <div className={style.cursor}>discover</div>
-                    <div className={style.cursor}>support</div>
+                    <div className={style.infoChapter}>discover</div>
+                    <div className={style.infoChapter}>support</div>
                     <Icon.Search color={"black"} className={style.cursor} />
                     <Icon.PersonCircle size={20} color={"black"} className={style.cursor} />
-                    <Icon.BoxArrowInRight size={25} color={"black"} className={style.cursor} />
+                    <NavLink to={"/authentication/login"} className={style.loginIcon}>
+                        <Icon.BoxArrowInRight size={25} color={"black"} className={style.cursor} />
+                    </NavLink>
                 </div>
             </div>
         </div>

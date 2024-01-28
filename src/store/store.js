@@ -12,3 +12,13 @@ export const useStateManagment = create(set => ({
 
     changeStatusOfLifeStyleCategory: status => set(state => ({ isOpenedLifeStyleCategory: status }))
 }));
+
+export const useUser = create(set => ({
+    authenticationMessage: null,
+    user: null,
+    error: null,
+
+    setAuthenticationMessage: text => set({ authenticationMessage: text }),
+    setUser: obj => set({ user: obj }),
+    setError: message => set({ error: message })
+}));

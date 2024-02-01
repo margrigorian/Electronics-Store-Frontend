@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import style from "./NavBarDrawer.module.css";
+import { NavLink } from "react-router-dom";
 import { useStateManagment } from "../../store/store";
 import { Drawer } from "@mui/material";
 import * as Icon from "react-bootstrap-icons";
@@ -83,18 +84,34 @@ export default function SmartHomeDrawer() {
                         }}
                     >
                         <div className={style.categoryContainer}>
-                            <div className={style.iconContainer}>
-                                <Icon.Watch size={"45px"} />
-                                <div className={style.categoryTitle}>Wearable</div>
-                            </div>
+                            <NavLink
+                                to={"catalog/life-style"}
+                                onClick={() => {
+                                    changeStatusDrawer(false);
+                                }}
+                                className={style.navlink}
+                            >
+                                <div className={style.iconContainer}>
+                                    <Icon.Watch size={"45px"} />
+                                    <div className={style.categoryTitle}>Wearable</div>
+                                </div>
+                            </NavLink>
                             <div className={style.iconContainer}>
                                 <ElectricScooterIcon sx={{ fontSize: "50px" }} />
                                 <div className={style.categoryTitle}>Vehicle</div>
                             </div>
-                            <div className={style.iconContainer}>
-                                <Icon.Display size={"50px"} />
-                                <div className={style.categoryTitle}>Office</div>
-                            </div>
+                            <NavLink
+                                to={"catalog/life-style"}
+                                onClick={() => {
+                                    changeStatusDrawer(false);
+                                }}
+                                className={style.navlink}
+                            >
+                                <div className={style.iconContainer}>
+                                    <Icon.Display size={"50px"} />
+                                    <div className={style.categoryTitle}>Office</div>
+                                </div>
+                            </NavLink>
                             <div className={style.iconContainer}>
                                 <SpaIcon sx={{ fontSize: "50px" }} />
                                 <div className={style.categoryTitle}>Personal Care</div>

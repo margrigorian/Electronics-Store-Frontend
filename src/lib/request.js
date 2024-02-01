@@ -32,4 +32,10 @@ async function makeRegistration(body) {
     }
 }
 
-export { makeAuthorization, makeRegistration };
+async function getFeildOfApplicationCategories(category) {
+    const data = await fetch(`http://localhost:3001/catalog/${category}`);
+    const productCategories = await data.json();
+    return productCategories;
+}
+
+export { makeAuthorization, makeRegistration, getFeildOfApplicationCategories };

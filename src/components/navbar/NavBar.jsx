@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 import { useStateManagment, useUser } from "../../store/store";
@@ -25,6 +24,7 @@ export default function NavBar() {
                     <NavLink to={"/"} className={`${style.logo} ${style.cursor}`}>
                         <div>T/</div>
                     </NavLink>
+
                     <div
                         className={style.category}
                         onMouseEnter={() => {
@@ -35,22 +35,29 @@ export default function NavBar() {
                             changeStatusDrawer(false);
                             changeStatusOfSmartHomeCategory(false);
                         }}
+                        onClick={() => {
+                            changeStatusDrawer(false);
+                        }}
                     >
                         SMART HOME
                     </div>
-                    <div
-                        className={style.category}
-                        onMouseEnter={() => {
-                            changeStatusDrawer(true);
-                            changeStatusOfLifeStyleCategory(true);
-                        }}
-                        onMouseLeave={() => {
-                            changeStatusDrawer(false);
-                            changeStatusOfLifeStyleCategory(false);
-                        }}
-                    >
-                        LIFE STYLE
-                    </div>
+                    <NavLink to={"catalog/life-style"} className={style.category}>
+                        <div
+                            onMouseEnter={() => {
+                                changeStatusDrawer(true);
+                                changeStatusOfLifeStyleCategory(true);
+                            }}
+                            onMouseLeave={() => {
+                                changeStatusDrawer(false);
+                                changeStatusOfLifeStyleCategory(false);
+                            }}
+                            onClick={() => {
+                                changeStatusDrawer(false);
+                            }}
+                        >
+                            LIFE STYLE
+                        </div>
+                    </NavLink>
                 </div>
                 <div className={style.navbarList}>
                     <div className={style.infoChapter}>discover</div>

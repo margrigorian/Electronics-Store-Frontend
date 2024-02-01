@@ -22,3 +22,11 @@ export const useUser = create(set => ({
     setUser: obj => set({ user: obj }),
     setError: message => set({ error: message })
 }));
+
+export const useProducts = create(set => ({
+    categories: null,
+    error: null,
+
+    setCategories: arr => set({ categories: arr }),
+    setError: message => set({ error: message })
+}));

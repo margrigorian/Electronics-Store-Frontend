@@ -9,6 +9,7 @@
 .categoryContainer{
     width: 80%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
 }
@@ -23,4 +24,7 @@
 }
 .iconContainer:hover{
     color:rgb(6, 130, 171)
+}
+.navlink{
+    text-decoration: none;
 }

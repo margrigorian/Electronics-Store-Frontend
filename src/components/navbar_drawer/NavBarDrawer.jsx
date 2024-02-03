@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import style from "./NavBarDrawer.module.css";
 import { NavLink } from "react-router-dom";
-import { useStateManagment } from "../../store/store";
+import { useStateManagment, useFilters } from "../../store/store";
 import { Drawer } from "@mui/material";
 import * as Icon from "react-bootstrap-icons";
 import KitchenIcon from "@mui/icons-material/Kitchen";
@@ -23,6 +23,13 @@ export default function SmartHomeDrawer() {
     const changeStatusOfLifeStyleCategory = useStateManagment(
         state => state.changeStatusOfLifeStyleCategory
     );
+
+    // закрытие при переходах filterDrawer
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
+    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
+    const setOrder = useFilters(state => state.setOrder);
+    const setPage = useFilters(state => state.setPage);
 
     return (
         <div>
@@ -87,6 +94,13 @@ export default function SmartHomeDrawer() {
                             <NavLink
                                 to={"catalog/life-style"}
                                 onClick={() => {
+                                    // filter param
+                                    setActiveSubcategory("");
+                                    changeStatusFilterDrawer(false);
+                                    setDefaultOrderRadio("");
+                                    setOrder("");
+                                    setPage(1);
+                                    // navbar drawer
                                     changeStatusDrawer(false);
                                 }}
                                 className={style.navlink}
@@ -103,6 +117,13 @@ export default function SmartHomeDrawer() {
                             <NavLink
                                 to={"catalog/life-style"}
                                 onClick={() => {
+                                    // filter param
+                                    setActiveSubcategory("");
+                                    changeStatusFilterDrawer(false);
+                                    setDefaultOrderRadio("");
+                                    setOrder("");
+                                    setPage(1);
+                                    // navbar drawer
                                     changeStatusDrawer(false);
                                 }}
                                 className={style.navlink}

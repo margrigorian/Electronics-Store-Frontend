@@ -1,6 +1,6 @@
 import style from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useStateManagment, useUser } from "../../store/store";
+import { useStateManagment, useUser, useFilters } from "../../store/store";
 import NavBarDrawer from "../navbar_drawer/NavBarDrawer";
 import * as Icon from "react-bootstrap-icons";
 
@@ -15,13 +15,30 @@ export default function NavBar() {
 
     // чтобы login форма отрисовывалась, а не висело сообщение об авторизации
     const setAuthenticationMessage = useUser(state => state.setAuthenticationMessage);
+    // закрытие при переходах filterDrawer
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
+    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
+    const setOrder = useFilters(state => state.setOrder);
+    const setPage = useFilters(state => state.setPage);
 
     return (
         <div>
             <NavBarDrawer />
             <div className={style.navBar}>
                 <div className={style.navbarList}>
-                    <NavLink to={"/"} className={`${style.logo} ${style.cursor}`}>
+                    <NavLink
+                        to={"/"}
+                        onClick={() => {
+                            // filter param
+                            setActiveSubcategory("");
+                            changeStatusFilterDrawer(false);
+                            setDefaultOrderRadio("");
+                            setOrder("");
+                            setPage(1);
+                        }}
+                        className={`${style.logo} ${style.cursor}`}
+                    >
                         <div>T/</div>
                     </NavLink>
 
@@ -36,6 +53,13 @@ export default function NavBar() {
                             changeStatusOfSmartHomeCategory(false);
                         }}
                         onClick={() => {
+                            // filter param
+                            setActiveSubcategory("");
+                            changeStatusFilterDrawer(false);
+                            setDefaultOrderRadio("");
+                            setOrder("");
+                            setPage(1);
+                            // navbar drawer
                             changeStatusDrawer(false);
                         }}
                     >
@@ -52,6 +76,13 @@ export default function NavBar() {
                                 changeStatusOfLifeStyleCategory(false);
                             }}
                             onClick={() => {
+                                // filter param
+                                setActiveSubcategory("");
+                                changeStatusFilterDrawer(false);
+                                setDefaultOrderRadio("");
+                                setOrder("");
+                                setPage(1);
+                                // navbar drawer
                                 changeStatusDrawer(false);
                             }}
                         >
@@ -67,6 +98,13 @@ export default function NavBar() {
                     <NavLink
                         to={"/authentication/login"}
                         onClick={() => {
+                            // filter param
+                            setActiveSubcategory("");
+                            changeStatusFilterDrawer(false);
+                            setDefaultOrderRadio("");
+                            setOrder("");
+                            setPage(1);
+                            // ...
                             setAuthenticationMessage(null);
                         }}
                         className={style.loginIcon}

@@ -1,25 +1,32 @@
 import style from "./ProductCategoriesPage.module.css";
 import { useEffect } from "react";
-import { useProducts } from "../../store/store";
+import { useStateManagment, useProducts } from "../../store/store";
 import { getFeildOfApplicationCategories } from "../../lib/request";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { NavLink } from "react-router-dom";
 
 export default function ProductCategoriesPage() {
     const categories = useProducts(state => state.categories);
     const setCategories = useProducts(state => state.setCategories);
     const setError = useProducts(state => state.setError);
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
 
     let currentPath = window.location.pathname;
     currentPath = currentPath.split("/");
     const category = currentPath[currentPath.length - 1];
+
     useEffect(() => {
         getFeildOfApplicationCategories(category).then(result => {
             if (result.data) {
                 let data = result.data.data.categories;
-                console.log(data);
                 data = data.map(el => {
-                    return { ...el, products: [...el.products, "All Product"] };
+                    if (el.products.length === 3) {
+                        return { ...el, products: [...el.products, "All Product"] };
+                    }
+
+                    return el;
                 });
+
                 setCategories(data);
             } else {
                 // необходимо ли отражать NOT FOUND, который не должен случиться?
@@ -35,28 +42,50 @@ export default function ProductCategoriesPage() {
                 categories.map(el => (
                     <div key={`categoryId-${Math.random()}`} className={style.categoryContainer}>
                         <div className={style.categoryName}>{el.category}</div>
-                        <button className={style.moreButton}>More</button>
+                        <NavLink
+                            to={`/catalog/product-list/${el.category}`}
+                            onClick={() => {
+                                setActiveSubcategory("");
+                            }}
+                        >
+                            <button
+                                disabled={el.products.length === 4 ? "" : "disabled"}
+                                className={style.moreButton}
+                            >
+                                More
+                            </button>
+                        </NavLink>
                         <div className={style.productsContainer}>
                             {el.products.map((item, i) =>
                                 i !== el.products.length - 1 ? (
                                     <div key={`productId-${item.id}`} className={style.product}>
-                                        <div className={style.productName}>{item.title}</div>
-                                        <div className={style.slogan}>Description or slogan</div>
+                                        <div className={style.productNameContainer}>
+                                            <div>{item.title}</div>
+                                            <div className={style.slogan}>
+                                                Description or slogan
+                                            </div>
+                                        </div>
                                         <button className={style.learnMoreButton}>
                                             Learn more
                                         </button>
                                         <img src={item.image} className={style.image} />
                                     </div>
                                 ) : (
-                                    <div
+                                    <NavLink
+                                        to={`/catalog/product-list/${el.category}`}
                                         key={`productId-${Math.random()}`}
-                                        className={style.allProductContainer}
+                                        onClick={() => {
+                                            setActiveSubcategory("");
+                                        }}
+                                        className={style.navlink}
                                     >
-                                        <div>{item}</div>
-                                        <button className={style.arrowButton}>
-                                            <ArrowForwardIcon />
-                                        </button>
-                                    </div>
+                                        <div className={style.allProductContainer}>
+                                            <div>{item}</div>
+                                            <button className={style.arrowButton}>
+                                                <ArrowForwardIcon />
+                                            </button>
+                                        </div>
+                                    </NavLink>
                                 )
                             )}
                         </div>

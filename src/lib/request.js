@@ -33,9 +33,34 @@ async function makeRegistration(body) {
 }
 
 async function getFeildOfApplicationCategories(category) {
-    const data = await fetch(`http://localhost:3001/catalog/${category}`);
-    const productCategories = await data.json();
-    return productCategories;
+    try {
+        const data = await fetch(`http://localhost:3001/catalog/${category}`);
+        const productCategories = await data.json();
+        return productCategories;
+    } catch (err) {
+        console.log(err);
+    }
 }
 
-export { makeAuthorization, makeRegistration, getFeildOfApplicationCategories };
+async function getProductList(
+    search,
+    category,
+    subcategory,
+    minPrice,
+    maxPrice,
+    order,
+    page,
+    limit
+) {
+    try {
+        const data = await fetch(
+            `http://localhost:3001/catalog/product-list/${category}?search=${search}&subcategory=${subcategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&order=${order}&page=${page}&limit=${limit}`
+        );
+        const productList = await data.json();
+        return productList;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { makeAuthorization, makeRegistration, getFeildOfApplicationCategories, getProductList };

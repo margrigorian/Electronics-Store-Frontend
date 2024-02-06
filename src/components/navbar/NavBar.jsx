@@ -2,37 +2,43 @@ import style from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 import { useStateManagment, useUser, useFilters } from "../../store/store";
 import NavBarDrawer from "../navbar_drawer/NavBarDrawer";
+import SearchDrawer from "../search_drawer/SearchDrawer";
 import * as Icon from "react-bootstrap-icons";
 
 export default function NavBar() {
-    const changeStatusDrawer = useStateManagment(state => state.changeStatusDrawer);
+    const changeStatusOfNavBarDrawer = useStateManagment(state => state.changeStatusOfNavBarDrawer);
     const changeStatusOfSmartHomeCategory = useStateManagment(
         state => state.changeStatusOfSmartHomeCategory
     );
     const changeStatusOfLifeStyleCategory = useStateManagment(
         state => state.changeStatusOfLifeStyleCategory
     );
+    const changeStatusOfSearchDrawer = useStateManagment(state => state.changeStatusOfSearchDrawer);
 
     // чтобы login форма отрисовывалась, а не висело сообщение об авторизации
     const setAuthenticationMessage = useUser(state => state.setAuthenticationMessage);
     // закрытие при переходах filterDrawer
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
-    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const changeStatusOfFilterDrawer = useStateManagment(state => state.changeStatusOfFilterDrawer);
     const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
     const setOrder = useFilters(state => state.setOrder);
     const setPage = useFilters(state => state.setPage);
+    // обновлять поиск
+    const setSearch = useFilters(state => state.setSearch);
 
     return (
         <div>
             <NavBarDrawer />
+            <SearchDrawer />
             <div className={style.navBar}>
                 <div className={style.navbarList}>
                     <NavLink
                         to={"/"}
                         onClick={() => {
                             // filter param
+                            setSearch("");
                             setActiveSubcategory("");
-                            changeStatusFilterDrawer(false);
+                            changeStatusOfFilterDrawer(false);
                             setDefaultOrderRadio("");
                             setOrder("");
                             setPage(1);
@@ -45,22 +51,23 @@ export default function NavBar() {
                     <div
                         className={style.category}
                         onMouseEnter={() => {
-                            changeStatusDrawer(true);
+                            changeStatusOfNavBarDrawer(true);
                             changeStatusOfSmartHomeCategory(true);
                         }}
                         onMouseLeave={() => {
-                            changeStatusDrawer(false);
+                            changeStatusOfNavBarDrawer(false);
                             changeStatusOfSmartHomeCategory(false);
                         }}
                         onClick={() => {
                             // filter param
+                            setSearch("");
                             setActiveSubcategory("");
-                            changeStatusFilterDrawer(false);
+                            changeStatusOfFilterDrawer(false);
                             setDefaultOrderRadio("");
                             setOrder("");
                             setPage(1);
                             // navbar drawer
-                            changeStatusDrawer(false);
+                            changeStatusOfNavBarDrawer(false);
                         }}
                     >
                         SMART HOME
@@ -68,22 +75,23 @@ export default function NavBar() {
                     <NavLink to={"catalog/life-style"} className={style.category}>
                         <div
                             onMouseEnter={() => {
-                                changeStatusDrawer(true);
+                                changeStatusOfNavBarDrawer(true);
                                 changeStatusOfLifeStyleCategory(true);
                             }}
                             onMouseLeave={() => {
-                                changeStatusDrawer(false);
+                                changeStatusOfNavBarDrawer(false);
                                 changeStatusOfLifeStyleCategory(false);
                             }}
                             onClick={() => {
                                 // filter param
+                                setSearch("");
                                 setActiveSubcategory("");
-                                changeStatusFilterDrawer(false);
+                                changeStatusOfFilterDrawer(false);
                                 setDefaultOrderRadio("");
                                 setOrder("");
                                 setPage(1);
                                 // navbar drawer
-                                changeStatusDrawer(false);
+                                changeStatusOfNavBarDrawer(false);
                             }}
                         >
                             LIFE STYLE
@@ -93,14 +101,22 @@ export default function NavBar() {
                 <div className={style.navbarList}>
                     <div className={style.infoChapter}>discover</div>
                     <div className={style.infoChapter}>support</div>
-                    <Icon.Search color={"black"} className={style.cursor} />
+                    <Icon.Search
+                        color={"black"}
+                        onClick={() => {
+                            setSearch("");
+                            changeStatusOfSearchDrawer(true);
+                        }}
+                        className={style.cursor}
+                    />
                     <Icon.PersonCircle size={20} color={"black"} className={style.cursor} />
                     <NavLink
                         to={"/authentication/login"}
                         onClick={() => {
                             // filter param
+                            setSearch("");
                             setActiveSubcategory("");
-                            changeStatusFilterDrawer(false);
+                            changeStatusOfFilterDrawer(false);
                             setDefaultOrderRadio("");
                             setOrder("");
                             setPage(1);

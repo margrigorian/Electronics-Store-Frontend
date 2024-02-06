@@ -1,19 +1,23 @@
 import { create } from "zustand";
 
 export const useStateManagment = create(set => ({
+    isOpenedNavBarDrawer: false,
     isOpenedSmartHomeCategory: false,
     isOpenedLifeStyleCategory: false,
-    isOpenedDrawer: false,
+    renderOfSearchPage: false,
+    isOpenedSearchDrawer: false,
     isOpenedFilterDrawer: false,
     isActiveSubcategory: "",
     defaultOrderRadio: "",
 
-    changeStatusDrawer: status => set(state => ({ isOpenedDrawer: status })),
+    changeStatusOfNavBarDrawer: status => set(state => ({ isOpenedNavBarDrawer: status })),
     changeStatusOfSmartHomeCategory: status =>
         set(state => ({ isOpenedSmartHomeCategory: status })),
     changeStatusOfLifeStyleCategory: status =>
         set(state => ({ isOpenedLifeStyleCategory: status })),
-    changeStatusFilterDrawer: status => set(state => ({ isOpenedFilterDrawer: status })),
+    setRenderOfSearchPage: render => set({ renderOfSearchPage: render }),
+    changeStatusOfSearchDrawer: status => set(state => ({ isOpenedSearchDrawer: status })),
+    changeStatusOfFilterDrawer: status => set(state => ({ isOpenedFilterDrawer: status })),
     setActiveSubcategory: category => set({ isActiveSubcategory: category }),
     setDefaultOrderRadio: status => set({ defaultOrderRadio: status })
 }));
@@ -39,6 +43,7 @@ export const useProducts = create(set => ({
 }));
 
 export const useFilters = create(set => ({
+    search: "",
     subcategories: null, // массив
     priceMin: null, // чтобы отрисовывать в SLIDER, значение string выдает ошибку
     priceMax: null,
@@ -46,6 +51,7 @@ export const useFilters = create(set => ({
     page: 1,
     limit: 8,
 
+    setSearch: value => set({ search: value }),
     setSubcategories: value => set({ subcategories: value }),
     setPriceMin: value => set({ priceMin: value }),
     setPriceMax: value => set({ priceMax: value }),

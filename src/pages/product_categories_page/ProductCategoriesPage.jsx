@@ -1,6 +1,6 @@
 import style from "./ProductCategoriesPage.module.css";
 import { useEffect } from "react";
-import { useStateManagment, useProducts } from "../../store/store";
+import { useStateManagment, useProducts, useFilters } from "../../store/store";
 import { getFeildOfApplicationCategories } from "../../lib/request";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { NavLink } from "react-router-dom";
@@ -10,6 +10,7 @@ export default function ProductCategoriesPage() {
     const setCategories = useProducts(state => state.setCategories);
     const setError = useProducts(state => state.setError);
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
+    const setLimit = useFilters(state => state.setLimit);
 
     let currentPath = window.location.pathname;
     currentPath = currentPath.split("/");
@@ -46,6 +47,8 @@ export default function ProductCategoriesPage() {
                             to={`/catalog/product-list/${el.category}`}
                             onClick={() => {
                                 setActiveSubcategory("");
+                                // необходимо после страницы поиска
+                                setLimit(8);
                             }}
                         >
                             <button
@@ -76,6 +79,8 @@ export default function ProductCategoriesPage() {
                                         key={`productId-${Math.random()}`}
                                         onClick={() => {
                                             setActiveSubcategory("");
+                                            // необходимо после страницы поиска
+                                            setLimit(8);
                                         }}
                                         className={style.navlink}
                                     >

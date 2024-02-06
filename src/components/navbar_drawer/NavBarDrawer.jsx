@@ -11,12 +11,12 @@ import SpaIcon from "@mui/icons-material/Spa";
 import SportsMotorsportsOutlinedIcon from "@mui/icons-material/SportsMotorsportsOutlined";
 import CableOutlinedIcon from "@mui/icons-material/CableOutlined";
 
-export default function SmartHomeDrawer() {
+export default function NavBarDrawer() {
     const isOpenedSmartHomeCategory = useStateManagment(state => state.isOpenedSmartHomeCategory);
     const isOpenedLifeStyleCategory = useStateManagment(state => state.isOpenedLifeStyleCategory);
-    const isOpenedDrawer = useStateManagment(state => state.isOpenedDrawer);
+    const isOpenedNavBarDrawer = useStateManagment(state => state.isOpenedNavBarDrawer);
 
-    const changeStatusDrawer = useStateManagment(state => state.changeStatusDrawer);
+    const changeStatusOfNavBarDrawer = useStateManagment(state => state.changeStatusOfNavBarDrawer);
     const changeStatusOfSmartHomeCategory = useStateManagment(
         state => state.changeStatusOfSmartHomeCategory
     );
@@ -26,16 +26,18 @@ export default function SmartHomeDrawer() {
 
     // закрытие при переходах filterDrawer
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
-    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const changeStatusOfFilterDrawer = useStateManagment(state => state.changeStatusOfFilterDrawer);
     const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
     const setOrder = useFilters(state => state.setOrder);
     const setPage = useFilters(state => state.setPage);
+    // обновлять поиск
+    const setSearch = useFilters(state => state.setSearch);
 
     return (
         <div>
             <Drawer
                 anchor="top"
-                open={isOpenedDrawer}
+                open={isOpenedNavBarDrawer}
                 disableScrollLock={true}
                 sx={{ zIndex: "0" }}
             >
@@ -43,11 +45,11 @@ export default function SmartHomeDrawer() {
                     <div
                         className={style.drawerContent}
                         onMouseEnter={() => {
-                            changeStatusDrawer(true);
+                            changeStatusOfNavBarDrawer(true);
                             changeStatusOfSmartHomeCategory(true);
                         }}
                         onMouseLeave={() => {
-                            changeStatusDrawer(false);
+                            changeStatusOfNavBarDrawer(false);
                             changeStatusOfSmartHomeCategory(false);
                         }}
                     >
@@ -82,11 +84,11 @@ export default function SmartHomeDrawer() {
                     <div
                         className={style.drawerContent}
                         onMouseEnter={() => {
-                            changeStatusDrawer(true);
+                            changeStatusOfNavBarDrawer(true);
                             changeStatusOfLifeStyleCategory(true);
                         }}
                         onMouseLeave={() => {
-                            changeStatusDrawer(false);
+                            changeStatusOfNavBarDrawer(false);
                             changeStatusOfLifeStyleCategory(false);
                         }}
                     >
@@ -95,13 +97,14 @@ export default function SmartHomeDrawer() {
                                 to={"catalog/life-style"}
                                 onClick={() => {
                                     // filter param
+                                    setSearch("");
                                     setActiveSubcategory("");
-                                    changeStatusFilterDrawer(false);
+                                    changeStatusOfFilterDrawer(false);
                                     setDefaultOrderRadio("");
                                     setOrder("");
                                     setPage(1);
                                     // navbar drawer
-                                    changeStatusDrawer(false);
+                                    changeStatusOfNavBarDrawer(false);
                                 }}
                                 className={style.navlink}
                             >
@@ -118,13 +121,14 @@ export default function SmartHomeDrawer() {
                                 to={"catalog/life-style"}
                                 onClick={() => {
                                     // filter param
+                                    setSearch("");
                                     setActiveSubcategory("");
-                                    changeStatusFilterDrawer(false);
+                                    changeStatusOfFilterDrawer(false);
                                     setDefaultOrderRadio("");
                                     setOrder("");
                                     setPage(1);
                                     // navbar drawer
-                                    changeStatusDrawer(false);
+                                    changeStatusOfNavBarDrawer(false);
                                 }}
                                 className={style.navlink}
                             >

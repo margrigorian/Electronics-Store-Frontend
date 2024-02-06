@@ -12,8 +12,11 @@ import * as Icon from "react-bootstrap-icons";
 export default function FilterDrawer({ makeRequest }) {
     // DRAWER
     const isOpenedFilterDrawer = useStateManagment(state => state.isOpenedFilterDrawer);
-    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const changeStatusOfFilterDrawer = useStateManagment(state => state.changeStatusOfFilterDrawer);
     // FILTER
+    const subcategories = useFilters(state => state.subcategories);
+    const setSubcategories = useFilters(state => state.setSubcategories);
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
     const priceMin = useFilters(state => state.priceMin);
     const setPriceMin = useFilters(state => state.setPriceMin);
     const priceMax = useFilters(state => state.priceMax);
@@ -41,7 +44,7 @@ export default function FilterDrawer({ makeRequest }) {
                 disableScrollLock={true}
                 sx={{ zIndex: "0" }}
                 onClick={() => {
-                    changeStatusFilterDrawer(false);
+                    changeStatusOfFilterDrawer(false);
                 }}
             >
                 <div className={style.drawerContent} onClick={e => e.stopPropagation()}>
@@ -167,7 +170,7 @@ export default function FilterDrawer({ makeRequest }) {
                         <Icon.XLg
                             className={style.closeIcon}
                             onClick={() => {
-                                changeStatusFilterDrawer(false);
+                                changeStatusOfFilterDrawer(false);
                             }}
                         />
                     </div>
@@ -185,8 +188,8 @@ export default function FilterDrawer({ makeRequest }) {
                         <button
                             onClick={() => {
                                 setPage(1);
-                                makeRequest(sliderValues[0], sliderValues[1], order, page);
-                                changeStatusFilterDrawer(false);
+                                makeRequest(sliderValues[0], sliderValues[1], order);
+                                changeStatusOfFilterDrawer(false);
                             }}
                             className={style.showButton}
                         >

@@ -7,6 +7,7 @@ import LoginPage from "./pages/login_page/LoginPage";
 import RegisterPage from "./pages/register_page/RegisterPage";
 import ProductCategoriesPage from "./pages/product_categories_page/ProductCategoriesPage";
 import ProductListPage from "./pages/product_list_page/ProductListPage";
+import SearchPage from "./pages/search_page/SearchPage";
 import Footer from "./components/footer/Footer";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                         path="/catalog/product-list/:category"
                         element={<ProductListPage />}
                     ></Route>
+                    <Route path="/catalog/search" element={<SearchPage />}></Route>
                 </Routes>
 
                 <div className={style.wrapper}>

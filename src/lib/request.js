@@ -42,19 +42,10 @@ async function getFeildOfApplicationCategories(category) {
     }
 }
 
-async function getProductList(
-    search,
-    category,
-    subcategory,
-    minPrice,
-    maxPrice,
-    order,
-    page,
-    limit
-) {
+async function getProductList(category, subcategory, minPrice, maxPrice, order, page, limit) {
     try {
         const data = await fetch(
-            `http://localhost:3001/catalog/product-list/${category}?search=${search}&subcategory=${subcategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&order=${order}&page=${page}&limit=${limit}`
+            `http://localhost:3001/catalog/product-list/${category}?subcategory=${subcategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&order=${order}&page=${page}&limit=${limit}`
         );
         const productList = await data.json();
         return productList;
@@ -63,4 +54,22 @@ async function getProductList(
     }
 }
 
-export { makeAuthorization, makeRegistration, getFeildOfApplicationCategories, getProductList };
+async function getSearchProductList(search, subcategory, minPrice, maxPrice, order, page, limit) {
+    try {
+        const data = await fetch(
+            `http://localhost:3001/catalog/search?q=${search}&subcategory=${subcategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&order=${order}&page=${page}&limit=${limit}`
+        );
+        const productList = await data.json();
+        return productList;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export {
+    makeAuthorization,
+    makeRegistration,
+    getFeildOfApplicationCategories,
+    getProductList,
+    getSearchProductList
+};

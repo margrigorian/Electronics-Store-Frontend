@@ -57,6 +57,9 @@
     flex-wrap: wrap;
     margin: 0 6px 6px 6px;
 }
+.product{
+    margin: 6px;
+}
 .loading{
     font-size: 20px;
     color:rgb(191, 194, 194);

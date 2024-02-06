@@ -10,9 +10,7 @@ import Pagination from "@mui/material/Pagination";
 
 export default function ProductListPage() {
     // DRAWER
-    const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
-    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
-    const changeStatusFilterDrawer = useStateManagment(state => state.changeStatusFilterDrawer);
+    const changeStatusOfFilterDrawer = useStateManagment(state => state.changeStatusOfFilterDrawer);
     // DEFAULT RADIO
     const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
     // PRODUCTS
@@ -22,6 +20,9 @@ export default function ProductListPage() {
     const setError = useProducts(state => state.setError);
     // FILTERS
     const { category } = useParams(); // передаем в запрос
+    const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
+    // c backend для отрисовки на front
     const subcategories = useFilters(state => state.subcategories);
     const setSubcategories = useFilters(state => state.setSubcategories);
     const setPriceMin = useFilters(state => state.setPriceMin);
@@ -33,14 +34,13 @@ export default function ProductListPage() {
     const limit = useFilters(state => state.limit);
     // PAGINATION
     const [numberOfPages, setNumberOfPages] = useState(1);
-    const [value, setValue] = useState(null);
 
     useEffect(() => {
-        makeRequest("", "", order, page);
+        makeRequest("", "", order);
     }, [isActiveSubcategory, page, limit]);
 
-    function makeRequest(min, max, orderType, p) {
-        getProductList("", category, isActiveSubcategory, min, max, orderType, p, limit).then(
+    function makeRequest(min, max, orderType) {
+        getProductList(category, isActiveSubcategory, min, max, orderType, page, limit).then(
             result => {
                 if (result.data) {
                     console.log(result.data.data);
@@ -80,18 +80,18 @@ export default function ProductListPage() {
                           <div
                               key={`subcategoryId-${i}`}
                               onClick={() => {
-                                  setActiveSubcategory(el.subcategory);
+                                  setActiveSubcategory(el);
                                   setOrder("");
                                   setDefaultOrderRadio("");
                                   setPage(1);
                               }}
                               className={
-                                  isActiveSubcategory === `${el.subcategory}`
+                                  isActiveSubcategory === `${el}`
                                       ? style.activeSubcategory
                                       : style.subcategory
                               }
                           >
-                              {el.subcategory}
+                              {el}
                           </div>
                       ))
                     : ""}
@@ -99,7 +99,7 @@ export default function ProductListPage() {
             <div className={style.filterAndPaginationContainer}>
                 <div
                     onClick={() => {
-                        changeStatusFilterDrawer(true);
+                        changeStatusOfFilterDrawer(true);
                     }}
                     className={style.filterContainer}
                 >
@@ -115,13 +115,14 @@ export default function ProductListPage() {
             <div className={style.productsContainer}>
                 {products ? (
                     products.map(el => (
-                        <Product
-                            key={`productId-${el.id}`}
-                            title={el.title}
-                            price={el.price}
-                            rate={el.rate}
-                            image={el.image}
-                        />
+                        <div key={`productId-${el.id}`} className={style.product}>
+                            <Product
+                                title={el.title}
+                                price={el.price}
+                                rate={el.rate}
+                                image={el.image}
+                            />
+                        </div>
                     ))
                 ) : (
                     <div className={style.loading}>Loading...</div>

@@ -6,6 +6,7 @@ import FilterDrawer from "../../components/filter_drawer/FilterDrawer";
 import Product from "../../components/product/Product";
 import * as Icon from "react-bootstrap-icons";
 import Pagination from "@mui/material/Pagination";
+import { NavLink } from "react-router-dom";
 
 export default function SearchPage() {
     // рендеринг Search Page
@@ -19,6 +20,7 @@ export default function SearchPage() {
     const setProducts = useProducts(state => state.setProducts);
     const error = useProducts(state => state.error);
     const setError = useProducts(state => state.setError);
+    const setQuantity = useProducts(state => state.setQuantity);
     // FILTERS
     const search = useFilters(state => state.search);
     const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
@@ -43,7 +45,9 @@ export default function SearchPage() {
     function makeRequest(min, max, orderType) {
         getSearchProductList(search, isActiveSubcategory, min, max, orderType, page, limit).then(
             result => {
-                if (result.data && result.data.data.products.length > 0) {
+                if (result.error) {
+                    setError(result.error.message);
+                } else if (result.data.data) {
                     setProducts(result.data.data.products);
                     const subcategoriesArr = result.data.data.subcategories;
                     setSubcategories(subcategoriesArr);
@@ -58,7 +62,9 @@ export default function SearchPage() {
                     setPriceMax(result.data.data.priceMax);
                     setNumberOfPages(Math.ceil(result.data.data.length / limit));
                 } else {
-                    setError(result.error.message);
+                    setProducts(null);
+                    setSubcategories(null);
+                    setActiveSubcategory("");
                 }
             }
         );
@@ -77,7 +83,7 @@ export default function SearchPage() {
                             onClick={() => {
                                 changeStatusOfFilterDrawer(true);
                             }}
-                            className={style.filterContainer}
+                            className={style.filterTitleContainer}
                         >
                             <Icon.Sliders2 size={"18px"} />
                             <div className={style.filterTitle}>FILTER AND ORDER</div>
@@ -137,21 +143,33 @@ export default function SearchPage() {
                         <div className={style.productsContainer}>
                             <div className={style.secondProductsContainer}>
                                 {products.map(el => (
-                                    <div key={`productId-${el.id}`} className={style.product}>
+                                    <NavLink
+                                        to={`/catalog/product/${el.id}`}
+                                        onClick={() => {
+                                            setQuantity(1);
+                                        }}
+                                        key={`productId-${el.id}`}
+                                        className={style.product}
+                                    >
                                         <Product
                                             title={el.title}
                                             price={el.price}
                                             rate={el.rate}
                                             image={el.image}
                                         />
-                                    </div>
+                                    </NavLink>
                                 ))}
                             </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div>No result</div>
+                <div className={style.noResultContainer}>
+                    <Icon.ExclamationSquare className={style.alertIcon} />
+                    <div className={style.noResultText}>
+                        No results. Click the tabs above to see more or try a different search
+                    </div>
+                </div>
             )}
         </div>
     );

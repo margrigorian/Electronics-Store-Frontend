@@ -1,9 +1,6 @@
 .container{
     min-height: 100vh;
     padding-top: 40px;
-    /* padding-bottom: 6px; */
-    /* display: flex;
-    flex-direction: column; */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color:rgb(246, 245, 245);
 }
@@ -16,6 +13,9 @@
     color: rgb(6, 130, 171);
     letter-spacing: 1px;
 }
+span{
+    color: grey;
+}
 .filterAndPaginationContainer{
     width: 100%;
     display: flex;
@@ -23,7 +23,7 @@
     justify-content: space-between;
     padding: 40px 22px 40px 40px;
 }
-.filterContainer{
+.filterTitleContainer{
     display: flex;
     align-items: flex-end;
     font-size: 14px;
@@ -74,4 +74,21 @@
 }
 .product{
     margin: 0px 15px 30px 15px;
+    text-decoration: none;
+    color: black;
+}
+.noResultContainer{
+    margin-top: 80px;
+    text-align: center;
+}
+.alertIcon{
+    color: rgb(216, 215, 215);
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+.noResultText{
+    font-size: 18px;
+    color: grey;
+    letter-spacing: 0.5px;
+
 }

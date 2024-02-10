@@ -1,6 +1,6 @@
 import style from "./ProductListPage.module.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useStateManagment, useProducts, useFilters } from "../../store/store";
 import FilterDrawer from "../../components/filter_drawer/FilterDrawer";
 import Product from "../../components/product/Product";
@@ -18,6 +18,7 @@ export default function ProductListPage() {
     const setProducts = useProducts(state => state.setProducts);
     const error = useProducts(state => state.error);
     const setError = useProducts(state => state.setError);
+    const setQuantity = useProducts(state => state.setQuantity);
     // FILTERS
     const { category } = useParams(); // передаем в запрос
     const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
@@ -101,7 +102,7 @@ export default function ProductListPage() {
                     onClick={() => {
                         changeStatusOfFilterDrawer(true);
                     }}
-                    className={style.filterContainer}
+                    className={style.filterTitleContainer}
                 >
                     <Icon.Sliders2 size={"18px"} />
                     <div className={style.filterTitle}>FILTER AND ORDER</div>
@@ -115,14 +116,21 @@ export default function ProductListPage() {
             <div className={style.productsContainer}>
                 {products ? (
                     products.map(el => (
-                        <div key={`productId-${el.id}`} className={style.product}>
+                        <NavLink
+                            to={`/catalog/product/${el.id}`}
+                            onClick={() => {
+                                setQuantity(1);
+                            }}
+                            key={`productId-${el.id}`}
+                            className={style.product}
+                        >
                             <Product
                                 title={el.title}
                                 price={el.price}
                                 rate={el.rate}
                                 image={el.image}
                             />
-                        </div>
+                        </NavLink>
                     ))
                 ) : (
                     <div className={style.loading}>Loading...</div>

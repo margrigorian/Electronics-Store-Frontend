@@ -39,7 +39,7 @@
     justify-content: space-between;
     padding: 40px 22px 40px 40px;
 }
-.filterContainer{
+.filterTitleContainer{
     display: flex;
     align-items: flex-end;
     font-size: 14px;
@@ -58,7 +58,9 @@
     margin: 0 6px 6px 6px;
 }
 .product{
+    color: black;
     margin: 6px;
+    text-decoration: none;
 }
 .loading{
     font-size: 20px;

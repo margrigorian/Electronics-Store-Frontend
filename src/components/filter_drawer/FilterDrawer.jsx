@@ -50,18 +50,24 @@ export default function FilterDrawer({ makeRequest }) {
                 <div className={style.drawerContent} onClick={e => e.stopPropagation()}>
                     <div className={style.filterContainer}>
                         <div className={style.filters}>
-                            <div className={style.boldText}>PRICE</div>
+                            <div className={style.priceTitle}>PRICE</div>
                             <div className={style.currency}>
                                 <div>{`US$ ${sliderValues ? sliderValues[0] : ""}`}</div>
                                 <div>{`US$ ${sliderValues ? sliderValues[1] : ""}`}</div>
                             </div>
                             <Slider
                                 size="small"
-                                getAriaLabel={() => "Temperature range"}
+                                getAriaLabel={() => "Price range"}
                                 valueLabelDisplay="auto"
                                 sx={{
-                                    color: "black",
-                                    marginLeft: "5px"
+                                    "& .MuiSlider-valueLabel": {
+                                        color: "white",
+                                        backgroundColor: "black"
+                                    },
+                                    "& .MuiSlider-thumb": {
+                                        backgroundColor: "black"
+                                    },
+                                    "& .MuiSlider-track": { backgroundColor: "black" }
                                 }}
                                 min={priceMin}
                                 max={priceMax}
@@ -70,7 +76,7 @@ export default function FilterDrawer({ makeRequest }) {
                                     setSliderValues(e.target.value);
                                 }}
                             />
-                            <div className={style.boldText}>SORT BY</div>
+                            <div className={style.sortByTitle}>SORT BY</div>
                             <div className={style.inputsContainer}>
                                 <FormControl>
                                     <RadioGroup
@@ -102,7 +108,8 @@ export default function FilterDrawer({ makeRequest }) {
                                                     fontFamily:
                                                         "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
                                                     fontSize: "14px",
-                                                    letterSpacing: "0.5px"
+                                                    letterSpacing: "0.5px",
+                                                    color: "black"
                                                 },
                                                 marginTop: "10px"
                                             }}
@@ -130,7 +137,8 @@ export default function FilterDrawer({ makeRequest }) {
                                                     fontFamily:
                                                         "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
                                                     fontSize: "14px",
-                                                    letterSpacing: "0.5px"
+                                                    letterSpacing: "0.5px",
+                                                    color: "black"
                                                 },
                                                 marginTop: "-10px"
                                             }}
@@ -158,7 +166,8 @@ export default function FilterDrawer({ makeRequest }) {
                                                     fontFamily:
                                                         "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
                                                     fontSize: "14px",
-                                                    letterSpacing: "0.5px"
+                                                    letterSpacing: "0.5px",
+                                                    color: "black"
                                                 },
                                                 marginTop: "-10px"
                                             }}

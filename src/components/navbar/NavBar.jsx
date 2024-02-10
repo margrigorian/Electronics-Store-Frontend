@@ -15,6 +15,8 @@ export default function NavBar() {
     );
     const changeStatusOfSearchDrawer = useStateManagment(state => state.changeStatusOfSearchDrawer);
 
+    // отображать необходимость логина по цвету иконки
+    const user = useUser(state => state.user);
     // чтобы login форма отрисовывалась, а не висело сообщение об авторизации
     const setAuthenticationMessage = useUser(state => state.setAuthenticationMessage);
     // закрытие при переходах filterDrawer
@@ -125,7 +127,10 @@ export default function NavBar() {
                         }}
                         className={style.loginIcon}
                     >
-                        <Icon.BoxArrowInRight size={25} color={"black"} className={style.cursor} />
+                        <Icon.BoxArrowInRight
+                            size={25}
+                            className={user ? style.blackLoginIcon : style.blueLoginIcon}
+                        />
                     </NavLink>
                 </div>
             </div>

@@ -34,11 +34,21 @@ export const useUser = create(set => ({
 
 export const useProducts = create(set => ({
     categories: null,
-    products: null,
+    products: null, // arr
+    product: null,
+    quantity: 10,
+    userRate: null,
+    userComment: "",
+    evaluation: null,
     error: null,
 
     setCategories: arr => set({ categories: arr }),
     setProducts: arr => set({ products: arr }),
+    setProduct: product => set({ product: product }),
+    setQuantity: value => set({ quantity: value }),
+    setUserRate: value => set({ userRate: value }),
+    setEvaluation: action => set({ evaluation: action }),
+    setUserComment: comment => set({ userComment: comment }),
     setError: message => set({ error: message })
 }));
 

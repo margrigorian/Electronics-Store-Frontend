@@ -11,6 +11,7 @@ export default function ProductCategoriesPage() {
     const setError = useProducts(state => state.setError);
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
     const setLimit = useFilters(state => state.setLimit);
+    const setQuantity = useProducts(state => state.setQuantity);
 
     let currentPath = window.location.pathname;
     currentPath = currentPath.split("/");
@@ -18,6 +19,7 @@ export default function ProductCategoriesPage() {
 
     useEffect(() => {
         getFeildOfApplicationCategories(category).then(result => {
+            console.log(result);
             if (result.data) {
                 let data = result.data.data.categories;
                 data = data.map(el => {
@@ -61,18 +63,27 @@ export default function ProductCategoriesPage() {
                         <div className={style.productsContainer}>
                             {el.products.map((item, i) =>
                                 i !== el.products.length - 1 ? (
-                                    <div key={`productId-${item.id}`} className={style.product}>
-                                        <div className={style.productNameContainer}>
-                                            <div>{item.title}</div>
-                                            <div className={style.slogan}>
-                                                Description or slogan
+                                    <NavLink
+                                        to={`/catalog/product/${item.id}`}
+                                        onClick={() => {
+                                            setQuantity(1);
+                                        }}
+                                        key={`productId-${item.id}`}
+                                        className={style.navlink}
+                                    >
+                                        <div className={style.product}>
+                                            <div className={style.productNameContainer}>
+                                                <div>{item.title}</div>
+                                                <div className={style.slogan}>
+                                                    Description or slogan
+                                                </div>
                                             </div>
+                                            <button className={style.learnMoreButton}>
+                                                Learn more
+                                            </button>
+                                            <img src={item.image} className={style.image} />
                                         </div>
-                                        <button className={style.learnMoreButton}>
-                                            Learn more
-                                        </button>
-                                        <img src={item.image} className={style.image} />
-                                    </div>
+                                    </NavLink>
                                 ) : (
                                     <NavLink
                                         to={`/catalog/product-list/${el.category}`}

@@ -6,7 +6,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: rgb(57, 56, 56);
     background-color: white;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 17px;
@@ -50,6 +49,15 @@
 .loginIcon{
     display: flex;
     align-items: center;
+    margin-left: -4px;
+}
+.blackLoginIcon{
+    color: black;
+    cursor: pointer;
+}
+.blueLoginIcon{
+    color: rgb(6, 130, 171);
+    cursor: pointer;
 }
 .cursor{
     cursor: pointer;

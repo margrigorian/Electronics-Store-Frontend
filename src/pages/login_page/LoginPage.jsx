@@ -23,10 +23,12 @@ export default function LoginPage() {
 
     const onSubmit = async data => {
         // наш хэндлер
+        console.log(data);
         const serverAnswer = await makeAuthorization(data);
 
         if (serverAnswer.data) {
             setAuthenticationMessage(serverAnswer.data.message);
+            console.log(serverAnswer.data.user);
             setUser(serverAnswer.data.user);
         } else {
             setError(serverAnswer.error.message); // при наличии ошибки

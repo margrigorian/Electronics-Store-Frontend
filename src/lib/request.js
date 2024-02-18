@@ -32,9 +32,9 @@ async function makeRegistration(body) {
     }
 }
 
-async function getFeildOfApplicationCategories(category) {
+async function getFeildOfApplicationCategories(fieldOfApplication) {
     try {
-        const data = await fetch(`http://localhost:3001/catalog/${category}`);
+        const data = await fetch(`http://localhost:3001/catalog/${fieldOfApplication}`);
         const productCategories = await data.json();
         return productCategories;
     } catch (err) {
@@ -134,6 +134,42 @@ async function deleteComment(productId, commentId, token) {
     }
 }
 
+async function getAllProductsWithCategoryStructure(token) {
+    try {
+        let data = await fetch(`http://localhost:3001/account/admin/`, {
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                authorization: `Bearer ${token}`
+            }
+        });
+        data = await data.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function postProduct(body, token) {
+    try {
+        const data = await fetch(`http://localhost:3001/account/admin`, {
+            method: "POST",
+            headers: {
+                // Заголовок при отправке файлов, нерьходимо исп. FormData
+                // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
+                // делает post без загрузки изображения
+                "Content-Type": "application/json; charset=utf-8",
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        const product = await data.json();
+        return product;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export {
     makeAuthorization,
     makeRegistration,
@@ -144,5 +180,7 @@ export {
     postRate,
     putRate,
     postComment,
-    deleteComment
+    deleteComment,
+    getAllProductsWithCategoryStructure,
+    postProduct
 };

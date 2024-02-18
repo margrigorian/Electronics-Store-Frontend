@@ -46,6 +46,10 @@
 .infoChapter:hover{
     color:rgb(6, 130, 171);
 }
+.userIcon{
+    display: flex;
+    align-items: center;
+}
 .loginIcon{
     display: flex;
     align-items: center;

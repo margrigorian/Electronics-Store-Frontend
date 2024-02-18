@@ -15,10 +15,10 @@ export default function ProductCategoriesPage() {
 
     let currentPath = window.location.pathname;
     currentPath = currentPath.split("/");
-    const category = currentPath[currentPath.length - 1];
+    const fieldOfApplication = currentPath[currentPath.length - 1];
 
     useEffect(() => {
-        getFeildOfApplicationCategories(category).then(result => {
+        getFeildOfApplicationCategories(fieldOfApplication).then(result => {
             console.log(result);
             if (result.data) {
                 let data = result.data.data.categories;

@@ -33,15 +33,26 @@ export const useUser = create(set => ({
 }));
 
 export const useProducts = create(set => ({
+    // для post/put
+    structure: null,
+    selectedFieldOfApplication: "",
+    selectedCategory: "",
+    selectedSubcategory: "",
+    // для отрисовки на странице ProductCategoriesPage
     categories: null,
     products: null, // arr
     product: null,
+    // возможно для рендера при search, точно не помню
     quantity: 10,
     userRate: null,
     userComment: "",
     evaluation: null,
     error: null,
 
+    setStructure: obj => set({ structure: obj }),
+    setSelectedFieldOfApplication: feild => set({ selectedFieldOfApplication: feild }),
+    setSelectedCategory: category => set({ selectedCategory: category }),
+    setSelectedSubcategory: subcategory => set({ selectedSubcategory: subcategory }),
     setCategories: arr => set({ categories: arr }),
     setProducts: arr => set({ products: arr }),
     setProduct: product => set({ product: product }),

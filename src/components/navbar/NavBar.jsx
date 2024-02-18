@@ -111,7 +111,12 @@ export default function NavBar() {
                         }}
                         className={style.cursor}
                     />
-                    <Icon.PersonCircle size={20} color={"black"} className={style.cursor} />
+                    <NavLink
+                        to={user && user.status === "admin" ? "/account/admin" : ""}
+                        className={style.userIcon}
+                    >
+                        <Icon.PersonCircle size={20} color={"black"} className={style.cursor} />
+                    </NavLink>
                     <NavLink
                         to={"/authentication/login"}
                         onClick={() => {

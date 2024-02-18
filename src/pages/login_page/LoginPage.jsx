@@ -1,5 +1,4 @@
 import style from "./LoginPage.module.css";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import { makeAuthorization } from "../../lib/request";

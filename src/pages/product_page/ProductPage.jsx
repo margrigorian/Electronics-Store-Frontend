@@ -46,12 +46,6 @@ export default function ProductPage() {
         });
     }
 
-    // async function postUserRateOrComment() {
-    //     console.log(id, userRate, comment, user.token);
-    //     // await postRateOrComment(id, userRate, comment, user.token);
-    //     // makeRequest();
-    // }
-
     return (
         <div className={style.container}>
             {product ? (
@@ -145,46 +139,6 @@ export default function ProductPage() {
                             </div>
                         </div>
                     </div>
-                    {/* <div className={style.userReviewContainer}>
-                        <div className={style.userReviewTitle}>LEAVE YOUR REVIEW</div>
-                        {user ? (
-                            <div className={style.userRateContainer}>
-                                <Rating
-                                    name="controlled"
-                                    sx={{
-                                        "& .MuiRating-iconFilled": {
-                                            color: "rgb(6, 130, 171)"
-                                        }
-                                    }}
-                                    value={userRate}
-                                    onChange={evt => setUserRate(evt.target.value)}
-                                    onClick={() => {}}
-                                />
-                                <div className={style.messageToUser}>Your last rate</div>
-                            </div>
-                        ) : (
-                            <div className={style.userRateContainer}>
-                                <Rating name="no-value" value={null} readOnly />
-                                <div className={style.messageToUser}>Please login</div>
-                            </div>
-                        )}
-                        <div className={style.userCommentContainer}>
-                            <textarea
-                                placeholder="Comment"
-                                className={style.commentTextArea}
-                                disabled={user ? "" : true}
-                                onChange={evt => setComment(evt.target.value)}
-                            ></textarea>
-                            <button
-                                disabled={user ? "" : true}
-                                className={
-                                    user ? style.addCommentButton : style.disabledAddCommentButton
-                                }
-                            >
-                                ADD COMMENT
-                            </button>
-                        </div>
-                    </div> */}
                     <UserReview getProduct={makeRequest} />
                     <Reviews makeRequest={makeRequest} />
                 </div>

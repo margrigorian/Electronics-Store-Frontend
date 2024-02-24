@@ -1,48 +1,99 @@
 import style from "./AdminPage.module.css";
 import { useState, useEffect } from "react";
-import { useUser, useProducts, useFilters } from "../../store/store";
+import { useStateManagment, useUser, useProducts, useFilters } from "../../store/store";
 import { getAllProductsWithCategoryStructure } from "../../lib/request.js";
 import PostProductForm from "../../components/post_product_form/PostProductForm.jsx";
+import FilterDrawer from "../../components/filter_drawer/FilterDrawer.jsx";
+import AdminProductList from "../../components/admin_product_list/AdminProductList.jsx";
 import * as Icon from "react-bootstrap-icons";
 
 export default function AdminPage() {
+    // GENERAL
     const user = useUser(state => state.user);
     const setStructure = useProducts(state => state.setStructure);
     const setProducts = useProducts(state => state.setProducts);
+    const setLength = useProducts(state => state.setLength);
+    const setError = useProducts(state => state.setError);
+    const renderOfAdminPage = useStateManagment(state => state.renderOfAdminPage);
+    // FILTERS
+    const search = useFilters(state => state.search);
+    const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
+    const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
+    // c backend для отрисовки на front
+    const subcategories = useFilters(state => state.subcategories);
     const setSubcategories = useFilters(state => state.setSubcategories);
     const setPriceMin = useFilters(state => state.setPriceMin);
     const setPriceMax = useFilters(state => state.setPriceMax);
+    const order = useFilters(state => state.order);
     // PAGINATION
     const page = useFilters(state => state.page);
-    const setPage = useFilters(state => state.setPage);
     const limit = useFilters(state => state.limit);
     const [numberOfPages, setNumberOfPages] = useState(1);
 
     useEffect(() => {
         if (user) {
-            getAllProductsWithCategoryStructure(user.token).then(result => {
-                if (result.data) {
-                    setStructure(result.data.data.structure);
-                    setSubcategories(result.data.data.subcategories);
+            makeRequest("", "", order);
+        }
+    }, [renderOfAdminPage, search, isActiveSubcategory, page, limit]);
+
+    function makeRequest(min, max, orderType) {
+        getAllProductsWithCategoryStructure(
+            search,
+            isActiveSubcategory,
+            min,
+            max,
+            orderType,
+            page,
+            limit,
+            user.token
+        ).then(result => {
+            if (result.error) {
+                setError(result.error.message);
+            } else if (result.data.data) {
+                console.log(result.data.data);
+                setStructure(result.data.data.structure);
+                // проверка, если search выдал null, нет категорий и продуктов соответтвенно
+                if (result.data.data.subcategories) {
+                    const subcategoriesArr = result.data.data.subcategories;
+                    setSubcategories(subcategoriesArr);
+                    // если сабкатегория одна, сразу ее устанавливаем
+                    // будет использоваться только при filterDrawer
+                    // subcategories не сразу преобразуется, поэтому условие единожды сработает
+                    if (subcategoriesArr.length === 1 && subcategories === null) {
+                        setActiveSubcategory(subcategoriesArr[0]);
+                    }
                     setProducts(result.data.data.products);
+                    setLength(result.data.data.length);
                     setPriceMin(result.data.data.priceMin);
                     setPriceMax(result.data.data.priceMax);
                     setNumberOfPages(Math.ceil(result.data.data.length / limit));
+                } else {
+                    setSubcategories(null);
+                    setActiveSubcategory(null);
+                    setProducts(null);
+                    setPriceMin(null);
+                    setPriceMax(null);
+                    setNumberOfPages(1);
                 }
-            });
-        }
-    }, []);
+            } else {
+                setError(result.error.message);
+            }
+        });
+    }
 
     return (
         <div className={style.container}>
+            <FilterDrawer makeRequest={makeRequest} />
             {user && user.status === "admin" ? (
                 <div>
                     <div className={style.adminTitle}>admin</div>
                     <PostProductForm />
+                    <AdminProductList numberOfPages={numberOfPages} />
                 </div>
             ) : (
                 <div className={style.lockIconContainer}>
                     <Icon.PersonLock size={"200px"} />
+                    <div className={style.pleaseLoginText}>please login</div>
                 </div>
             )}
         </div>

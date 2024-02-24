@@ -19,6 +19,7 @@ export default function ProductListPage() {
     const error = useProducts(state => state.error);
     const setError = useProducts(state => state.setError);
     const setQuantity = useProducts(state => state.setQuantity);
+    const setUserRate = useProducts(state => state.setUserRate);
     // FILTERS
     const { category } = useParams(); // передаем в запрос
     const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
@@ -120,6 +121,7 @@ export default function ProductListPage() {
                             to={`/catalog/product/${el.id}`}
                             onClick={() => {
                                 setQuantity(1);
+                                setUserRate(null);
                             }}
                             key={`productId-${el.id}`}
                             className={style.product}

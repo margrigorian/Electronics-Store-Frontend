@@ -1,6 +1,6 @@
 import style from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useStateManagment, useUser, useFilters } from "../../store/store";
+import { useStateManagment, useUser, useProducts, useFilters } from "../../store/store";
 import NavBarDrawer from "../navbar_drawer/NavBarDrawer";
 import SearchDrawer from "../search_drawer/SearchDrawer";
 import * as Icon from "react-bootstrap-icons";
@@ -25,8 +25,9 @@ export default function NavBar() {
     const setDefaultOrderRadio = useStateManagment(state => state.setDefaultOrderRadio);
     const setOrder = useFilters(state => state.setOrder);
     const setPage = useFilters(state => state.setPage);
-    // обновлять поиск
+    // обновлять поиск и обнулять информацию в store
     const setSearch = useFilters(state => state.setSearch);
+    const setProduct = useProducts(state => state.setProduct);
 
     return (
         <div>
@@ -112,7 +113,18 @@ export default function NavBar() {
                         className={style.cursor}
                     />
                     <NavLink
-                        to={user && user.status === "admin" ? "/account/admin" : ""}
+                        to={"/account/admin"}
+                        onClick={() => {
+                            // необходимо после перехода с Product Page
+                            setProduct(null);
+                            // filter param
+                            setSearch("");
+                            setActiveSubcategory("");
+                            changeStatusOfFilterDrawer(false);
+                            setDefaultOrderRadio("");
+                            setOrder("");
+                            setPage(1);
+                        }}
                         className={style.userIcon}
                     >
                         <Icon.PersonCircle size={20} color={"black"} className={style.cursor} />

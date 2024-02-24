@@ -10,7 +10,7 @@
     flex-wrap: wrap;
     border-radius: 10px;
     background-color: white;
-    padding: 20px;
+    padding: 20px 40px 20px 20px;
 }
 .imagesContainer{
     display: flex;
@@ -18,7 +18,7 @@
     flex: 2;
 }
 .image{
-    width: 350px;
+    width: 320px;
     height: 300px;
 }
 .productDescription{
@@ -101,6 +101,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 .addProductButton{
     width: 70%;

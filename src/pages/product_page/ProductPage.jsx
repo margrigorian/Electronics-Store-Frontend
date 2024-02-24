@@ -2,7 +2,7 @@ import style from "./ProductPage.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProducts, useUser } from "../../store/store";
-import { getProduct, postRateOrComment } from "../../lib/request";
+import { getProduct } from "../../lib/request";
 import UserReview from "../../components/user_review/UserReview";
 import Reviews from "../../components/reviews/Reviews";
 import * as Icon from "react-bootstrap-icons";

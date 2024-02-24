@@ -72,14 +72,7 @@ export default function SelectedCategoriesInputs({ register, errors }) {
                                 ))}
                             </div>
                         ) : (
-                            <div
-                                className={style.option}
-                                onClick={() => {
-                                    setIsOpenedFieldSelect(false);
-                                }}
-                            >
-                                {" "}
-                            </div>
+                            ""
                         )}
                     </div>
                 )}
@@ -142,14 +135,7 @@ export default function SelectedCategoriesInputs({ register, errors }) {
                                 )}
                             </div>
                         ) : (
-                            <div
-                                className={style.option}
-                                onClick={() => {
-                                    setIsOpenedCategorySelect(false);
-                                }}
-                            >
-                                {" "}
-                            </div>
+                            ""
                         )}
                     </div>
                 )}
@@ -211,14 +197,7 @@ export default function SelectedCategoriesInputs({ register, errors }) {
                                 )}
                             </div>
                         ) : (
-                            <div
-                                className={style.option}
-                                onClick={() => {
-                                    setIsOpenedCategorySelect(false);
-                                }}
-                            >
-                                {" "}
-                            </div>
+                            ""
                         )}
                     </div>
                 )}

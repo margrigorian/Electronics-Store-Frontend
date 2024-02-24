@@ -134,14 +134,26 @@ async function deleteComment(productId, commentId, token) {
     }
 }
 
-async function getAllProductsWithCategoryStructure(token) {
+async function getAllProductsWithCategoryStructure(
+    search,
+    subcategory,
+    minPrice,
+    maxPrice,
+    order,
+    page,
+    limit,
+    token
+) {
     try {
-        let data = await fetch(`http://localhost:3001/account/admin/`, {
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                authorization: `Bearer ${token}`
+        let data = await fetch(
+            `http://localhost:3001/account/admin/?q=${search}&subcategory=${subcategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&order=${order}&page=${page}&limit=${limit}`,
+            {
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    authorization: `Bearer ${token}`
+                }
             }
-        });
+        );
         data = await data.json();
         return data;
     } catch (err) {
@@ -154,7 +166,7 @@ async function postProduct(body, token) {
         const data = await fetch(`http://localhost:3001/account/admin`, {
             method: "POST",
             headers: {
-                // Заголовок при отправке файлов, нерьходимо исп. FormData
+                // Заголовок при отправке файлов, необходимо исп. FormData
                 // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
                 // делает post без загрузки изображения
                 "Content-Type": "application/json; charset=utf-8",
@@ -163,6 +175,42 @@ async function postProduct(body, token) {
             body: JSON.stringify(body)
         });
 
+        const product = await data.json();
+        return product;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function putProduct(body, token) {
+    try {
+        const data = await fetch(`http://localhost:3001/account/admin`, {
+            method: "PUT",
+            headers: {
+                // Заголовок при отправке файлов, необходимо исп. FormData
+                // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
+                // делает put без загрузки изображения
+                "Content-Type": "application/json; charset=utf-8",
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        const product = await data.json();
+        return product;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function deleteProduct(token, productId) {
+    try {
+        const data = await fetch(`http://localhost:3001/account/admin?productId=${productId}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        });
         const product = await data.json();
         return product;
     } catch (err) {
@@ -182,5 +230,7 @@ export {
     postComment,
     deleteComment,
     getAllProductsWithCategoryStructure,
-    postProduct
+    postProduct,
+    putProduct,
+    deleteProduct
 };

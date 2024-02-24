@@ -14,8 +14,6 @@ export default function SearchDrawer() {
     const search = useFilters(state => state.search);
     const setSearch = useFilters(state => state.setSearch);
     const navigate = useNavigate();
-    // отправление запроса
-
     // закрытие filterDrawer при переходах
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
     const changeStatusOfFilterDrawer = useStateManagment(state => state.changeStatusOfFilterDrawer);

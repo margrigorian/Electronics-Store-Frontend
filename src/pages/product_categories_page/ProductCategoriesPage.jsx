@@ -12,6 +12,7 @@ export default function ProductCategoriesPage() {
     const setActiveSubcategory = useStateManagment(state => state.setActiveSubcategory);
     const setLimit = useFilters(state => state.setLimit);
     const setQuantity = useProducts(state => state.setQuantity);
+    const setUserRate = useProducts(state => state.setUserRate);
 
     let currentPath = window.location.pathname;
     currentPath = currentPath.split("/");
@@ -67,6 +68,7 @@ export default function ProductCategoriesPage() {
                                         to={`/catalog/product/${item.id}`}
                                         onClick={() => {
                                             setQuantity(1);
+                                            setUserRate(null);
                                         }}
                                         key={`productId-${item.id}`}
                                         className={style.navlink}

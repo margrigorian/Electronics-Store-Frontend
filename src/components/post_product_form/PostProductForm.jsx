@@ -1,12 +1,16 @@
 import style from "./PostProductForm.module.css";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useUser, useProducts } from "../../store/store";
-import { postProduct } from "../../lib/request";
+import { useStateManagment, useUser, useProducts } from "../../store/store";
+import { postProduct, putProduct } from "../../lib/request";
 import SelectedCategoriesInputs from "../selected_categories_inputs/SelectedCategoriesInputs";
 
 export default function PostProductForm() {
     const user = useUser(state => state.user);
+    const product = useProducts(state => state.product);
+    const setProduct = useProducts(state => state.setProduct);
+    const renderOfAdminPage = useStateManagment(state => state.renderOfAdminPage);
+    const setRenderOfAdminPage = useStateManagment(state => state.setRenderOfAdminPage);
     // SELECT
     const selectedFieldOfApplication = useProducts(state => state.selectedFieldOfApplication);
     const setSelectedFieldOfApplication = useProducts(state => state.setSelectedFieldOfApplication);
@@ -14,31 +18,54 @@ export default function PostProductForm() {
     const setSelectedCategory = useProducts(state => state.setSelectedCategory);
     const selectedSubcategory = useProducts(state => state.selectedSubcategory);
     const setSelectedSubcategory = useProducts(state => state.setSelectedSubcategory);
-    // IMAGE
-    const [selectedImage, setSelectedImage] = useState("");
+    // FORM VALUES
     const imagePicker = useRef(null);
+    const selectedImage = useProducts(state => state.selectedImage);
+    const setSelectedImage = useProducts(state => state.setSelectedImage);
+    const title = useProducts(state => state.title);
+    const setTitle = useProducts(state => state.setTitle);
+    const description = useProducts(state => state.description);
+    const setDescription = useProducts(state => state.setDescription);
+    const selectedQuantity = useProducts(state => state.selectedQuantity);
+    const setSelectedQuantity = useProducts(state => state.setSelectedQuantity);
+    const selectedPrice = useProducts(state => state.selectedPrice);
+    const setSelectedPrice = useProducts(state => state.setSelectedPrice);
 
     const {
         register, // метод формы, который возвращает объект, поэтому деструкт. в самой форме
         setValue,
         formState: { errors }, // содержит разные св-ва
         watch,
-        handleSubmit, // функия-обертка над нашим кастомным хэндлером - onSubmit, в случае ошибки не допустит отправку данных
-        reset
+        reset,
+        handleSubmit // функия-обертка над нашим кастомным хэндлером - onSubmit, в случае ошибки не допустит отправку данных
     } = useForm({
         mode: "onBlur" // настройка режима: если убрать фокус с инпут, при ошибке сразу высветится коммент error
     });
 
     const onSubmit = async data => {
         // const form = document.getElementById("form");
-        // const formData = new FormData(form);
-        // formData.append("image", data.image);
-        await postProduct(data, user.token).then(result => console.log(result));
+        // const formData = new FormData();
+        // formData.append("image", selectedImage);
+
+        if (product) {
+            await putProduct(data, user.token).then(result => console.log(result));
+        } else {
+            await postProduct(data, user.token).then(result => console.log(result));
+        }
+
+        setProduct(null);
         setSelectedImage(null);
+        setTitle("");
+        setDescription("");
         setSelectedFieldOfApplication("");
         setSelectedCategory("");
         setSelectedSubcategory("");
+        setSelectedQuantity("");
+        setSelectedPrice("");
         reset();
+        // обновление списка продуктов через рендеринг
+        setRenderOfAdminPage(!renderOfAdminPage);
+        // console.log(renderOfAmninPage);
     };
 
     return (
@@ -55,9 +82,10 @@ export default function PostProductForm() {
                         boxShadow: errors?.image && "none"
                     }}
                 >
-                    {selectedImage ? (
+                    {/* или загружено изображение или выбрано изображение сущ. продукта (при put) */}
+                    {selectedImage || product ? (
                         <img
-                            src={URL.createObjectURL(selectedImage)}
+                            src={selectedImage ? URL.createObjectURL(selectedImage) : product.image}
                             className={style.uploadImage}
                         />
                     ) : (
@@ -72,6 +100,10 @@ export default function PostProductForm() {
                                     // делаем валидацию
                                     required: "This field is required" // сообщение ошибки
                                 })}
+                                value={title}
+                                onChange={e => {
+                                    setTitle(e.target.value);
+                                }}
                                 placeholder="Title"
                                 style={{
                                     borderBottom: errors?.title && "1px solid rgb(212, 31, 31)",
@@ -87,12 +119,16 @@ export default function PostProductForm() {
 
                         <div className={style.textareaContainer}>
                             <textarea
-                                className={style.description}
                                 {...register("description", {
                                     // делаем валидацию
                                     required: "This field is required" // сообщение ошибки
                                 })}
+                                value={description}
+                                onChange={e => {
+                                    setDescription(e.target.value);
+                                }}
                                 placeholder="Description"
+                                className={style.description}
                                 style={{
                                     border: errors?.description && "1px solid rgb(212, 31, 31)",
                                     boxShadow: errors?.description && "none"
@@ -132,6 +168,10 @@ export default function PostProductForm() {
                                         // делаем валидацию
                                         required: "This field is required" // сообщение ошибки
                                     })}
+                                    value={selectedQuantity}
+                                    onChange={e => {
+                                        setSelectedQuantity(e.target.value);
+                                    }}
                                     placeholder="0"
                                     className={style.quantitativeWindow}
                                 />
@@ -148,6 +188,10 @@ export default function PostProductForm() {
                                         // делаем валидацию
                                         required: "This field is required" // сообщение ошибки
                                     })}
+                                    value={selectedPrice}
+                                    onChange={e => {
+                                        setSelectedPrice(e.target.value);
+                                    }}
                                     placeholder="0"
                                     className={style.quantitativeWindow}
                                 />
@@ -164,10 +208,15 @@ export default function PostProductForm() {
                                 type="button"
                                 className={style.resetButton}
                                 onClick={() => {
-                                    setSelectedImage("");
+                                    setProduct(null);
+                                    setSelectedImage(null);
+                                    setTitle("");
+                                    setDescription("");
                                     setSelectedFieldOfApplication("");
                                     setSelectedCategory("");
                                     setSelectedSubcategory("");
+                                    setSelectedQuantity("");
+                                    setSelectedPrice("");
                                     reset();
                                 }}
                             >
@@ -181,12 +230,16 @@ export default function PostProductForm() {
                                 onClick={() => {
                                     // if (selectedImage) setValue("image", selectedImage);
                                     // setValue("image", selectedImage);
+                                    // необходимо для put
+                                    if (product) {
+                                        setValue("id", product.id);
+                                    }
                                     setValue("feildOfApplication", selectedFieldOfApplication);
                                     setValue("category", selectedCategory);
                                     setValue("subcategory", selectedSubcategory);
                                 }}
                             >
-                                ADD PRODUCT
+                                {product ? "CHANGE" : "ADD PRODUCT"}
                             </button>
                         </div>
                     </div>

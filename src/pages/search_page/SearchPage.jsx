@@ -21,6 +21,7 @@ export default function SearchPage() {
     const error = useProducts(state => state.error);
     const setError = useProducts(state => state.setError);
     const setQuantity = useProducts(state => state.setQuantity);
+    const setUserRate = useProducts(state => state.setUserRate);
     // FILTERS
     const search = useFilters(state => state.search);
     const isActiveSubcategory = useStateManagment(state => state.isActiveSubcategory);
@@ -147,6 +148,7 @@ export default function SearchPage() {
                                         to={`/catalog/product/${el.id}`}
                                         onClick={() => {
                                             setQuantity(1);
+                                            setUserRate(null);
                                         }}
                                         key={`productId-${el.id}`}
                                         className={style.product}
